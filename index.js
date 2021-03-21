@@ -2,8 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-import axios from "axios";
 import dotenv from "dotenv";
+import axios from "axios";
+import postRoutes from "./routes/posts.js";
 
 const app = express();
 dotenv.config();
@@ -12,35 +13,13 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-const PORT = process.env.PORT || 5000;
-
-const createPost = async (req, res) => {
-  const post = req.body;
-  const newPost = new Post(post);
-  try {
-    await newPost.save();
-    res.status(201).json(newPost);
-  } catch (error) {
-    res.status(409).json({
-      message: error.message,
-    });
-  }
-};
-
-const getPosts = async (req, res) => {
-  try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
-  }
-};
-
 const url = "https://jobs.github.com/";
 
-app.get("/", (req, res) => res.send("Home Page Route"));
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
+
+app.use("/posts", postRoutes);
 
 app.get("/api", (req, res) => {
   axios({
@@ -59,6 +38,8 @@ app.get("/api", (req, res) => {
     });
 });
 
+const PORT = process.env.PORT || 5000;
+
 mongoose
   .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
@@ -72,7 +53,3 @@ mongoose
   });
 
 mongoose.set("useFindAndModify", false);
-
-// app.listen(PORT, () =>
-//   console.log(`Server running on ${PORT}, http://localhost:${PORT}`)
-// );
