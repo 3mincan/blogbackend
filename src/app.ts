@@ -10,7 +10,7 @@ const app = express();
 dotenv.config();
 app.use(cors());
 
-export const getPosts = async (req, res) => {
+const getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
     res.status(200).json(posts);
@@ -21,21 +21,21 @@ export const getPosts = async (req, res) => {
   }
 };
 
-const url = "https://jobs.github.com/";
+// const url = "https://jobs.github.com/";
 
 const PORT = process.env.PORT || 5000;
 
 // app.get("/", (req, res) => res.send("Hello World"));
 
-app.get("/api", (req, res) => res.status(200).json({ data: "api" }));
+// app.get("/api", (req, res) => res.status(200).json({ data: "api" }));
 
 app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-app.use("/posts", postRoutes);
+app.get("/posts", getPosts);
 
-// app.get("/api/positions.json", (req, res) => {
+// app.get("/api/", (req, res) => {
 //   axios({
 //     url: url + "positions.json",
 //     headers: {

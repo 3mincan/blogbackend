@@ -1,5 +1,5 @@
 {
-  "name": "vercel-node-app",
+  "name": "blogbackend",
   "version": "1.0.0",
   "description": "",
   "main": "src/app.ts",
