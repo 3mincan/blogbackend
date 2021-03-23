@@ -21,6 +21,19 @@ const getPosts = async (req, res) => {
   }
 };
 
+const createPost = async (req, res) => {
+  const post = req.body;
+  const newPost = new Post(post);
+  try {
+    await newPost.save();
+    res.status(201).json(newPost);
+  } catch (error) {
+    res.status(409).json({
+      message: error.message,
+    });
+  }
+};
+
 // const url = "https://jobs.github.com/";
 
 const PORT = process.env.PORT || 5000;
@@ -34,6 +47,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/posts", getPosts);
+app.post("/", createPost);
 
 // app.get("/api/", (req, res) => {
 //   axios({
