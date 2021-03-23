@@ -5,16 +5,19 @@ import dotenv from "dotenv";
 import postRoutes from "../routes/posts.js";
 import Post from "../models/post.js";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 
 const app = express();
 dotenv.config();
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
     res.status(200).json(posts);
-    console.log(posts)
+    // console.log(posts)
   } catch (error) {
     res.status(404).json({
       message: error.message,
@@ -24,6 +27,7 @@ const getPosts = async (req, res) => {
 
 const createPost = async (req, res) => {
   const post = req.body;
+  console.log(req.body)
   const newPost = new Post(post);
   try {
     await newPost.save();
