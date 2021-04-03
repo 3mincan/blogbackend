@@ -9,14 +9,8 @@ import bodyParser from "body-parser";
 
 const app = express();
 dotenv.config();
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-
-
-const corsOptions = {
-  origin: "https://dev101.tk"|| "http://localhost",
-};
 
 const getPosts = async (req, res) => {
   try {
@@ -56,8 +50,8 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-app.get("/posts",cors(corsOptions), getPosts);
-app.post("/", cors(corsOptions), createPost);
+app.get("/posts", getPosts);
+app.post("/", createPost);
 
 // app.get("/api/", (req, res) => {
 //   axios({
