@@ -12,6 +12,11 @@ dotenv.config();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
+
+const corsOptions = {
+  origin: '*' ,
+};
+
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -38,20 +43,14 @@ const createPost = async (req, res) => {
   }
 };
 
-// const url = "https://jobs.github.com/";
-
 const PORT = process.env.PORT || 5000;
-
-// app.get("/", (req, res) => res.send("Hello World"));
-
-// app.get("/api", (req, res) => res.status(200).json({ data: "api" }));
 
 app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-app.get("/posts", getPosts);
-app.post("/", createPost);
+app.get("/posts", cors(corsOptions), getPosts);
+app.post("/", cors(corsOptions), createPost);
 
 // app.get("/api/", (req, res) => {
 //   axios({
